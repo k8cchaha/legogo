@@ -14,13 +14,13 @@ export const useUserStore = defineStore('user', () => {
     userList.push(...value.list);
     isLogin.value = true;
 
-    localStorage.setItem('user', JSON.stringify(value));
+    localStorage.setItem('user2', JSON.stringify(value));
   };
 
   const logout = () => {
     userName.value = '';
     isLogin.value = false;
-    localStorage.removeItem('user')
+    localStorage.removeItem('user2')
   }
 
   return {

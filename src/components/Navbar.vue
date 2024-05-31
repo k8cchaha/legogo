@@ -66,8 +66,8 @@ export default {
     }
 
     onMounted(() => {
-      if (localStorage.getItem('user')) {
-        userStore.setUserInfo(JSON.parse(localStorage.getItem('user')))
+      if (localStorage.getItem('user2')) {
+        userStore.setUserInfo(JSON.parse(localStorage.getItem('user2')))
       }
     })
 

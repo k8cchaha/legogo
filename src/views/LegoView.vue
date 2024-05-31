@@ -153,7 +153,7 @@ export default {
         this.updateDetailList();
 
         if (localStorage) {
-          localStorage.setItem('lego2', JSON.stringify(this.allLego))
+          localStorage.setItem('lego3', JSON.stringify(this.allLego))
         }
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -187,8 +187,8 @@ export default {
     }
   },
   mounted() {
-    if (localStorage && localStorage.getItem('lego2')) {
-      this.allLego = JSON.parse(localStorage.getItem('lego2'));
+    if (localStorage && localStorage.getItem('lego3')) {
+      this.allLego = JSON.parse(localStorage.getItem('lego3'));
       this.updateDetailList();
     } else {
       this.getLegoInfo();

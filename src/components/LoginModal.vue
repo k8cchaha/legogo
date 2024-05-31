@@ -61,7 +61,7 @@ export default {
             }
           }
           if (this.userList[i].set === '全') {
-            const allLego = JSON.parse(localStorage.getItem('lego2'));
+            const allLego = JSON.parse(localStorage.getItem('lego3'));
             fromSet.push(...allLego.map((item)=>Number(item.set)))
           }
           if (this.userList[i].not !== '') {
