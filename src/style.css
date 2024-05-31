@@ -1,0 +1,55 @@
+:root {
+  --primary-color: #3498db; /* 主题蓝 */
+  --secondary-color: #f39c12; /* 辅助橙 */
+  --background-color: #fff3e0; /* 背景色浅橙 */
+  --text-color: #34495e; /* 文字颜色 */
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+body.en {
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  font-style: normal;
+}
+
+body.zh {
+  font-family: "Noto Sans TC", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* button:hover {
+  background-color: darken(var(--secondary-color), 10%);
+} */
+
+@media (max-width: 768px) {
+  button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
