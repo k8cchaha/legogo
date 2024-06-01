@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="modal-buttons">
-        <button @click="closeModal">返回</button>
+        <!-- <button @click="closeModal">返回</button> -->
         <button @click="confirm">確認</button>
       </div>
     </div>
@@ -174,7 +174,7 @@ th {
   overflow: auto;
   min-width: 300px;
   max-width: 80%;
-  max-height: 60%;
+  max-height: 80%;
   background: white;
   padding: 20px 20px;
   border-radius: 8px;

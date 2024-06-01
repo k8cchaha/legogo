@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in displayList" :key="item.set+item.new">
+          <tr v-for="(item, index) in displayList" :key="item.set+item.new" @click="selectedRow(index)">
             <td class="check">
               <input type="checkbox" v-model="item.selected" :disabled="item.soldout" style="cursor: pointer;">
             </td>
@@ -192,6 +192,11 @@ export default {
       let numberArray = numberString.split('');
       numberArray[numberArray.length - 1] = '0';
       return numberArray.join('');
+    },
+    selectedRow(idx) {
+      if (!this.displayList[idx].soldout) {
+        this.displayList[idx].selected = !this.displayList[idx].selected;
+      }
     }
   }
 };

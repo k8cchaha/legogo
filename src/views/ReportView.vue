@@ -71,7 +71,7 @@ export default {
 
       try {
         const sourcePathBase = process.env.NODE_ENV === 'production' ? '/legogo' : '';
-        const response = await fetch(sourcePathBase + '/data/legov2.json');
+        const response = await fetch(sourcePathBase + '/data/legov3.json');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
