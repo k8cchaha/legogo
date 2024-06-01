@@ -19,7 +19,7 @@
       </table>
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <button style="width: 75px;" @click="copyItems">複製選購商品</button>
+          <button style="width: 82px; font-size: 14px;" @click="copyItems">複製選購商品</button>
         </div>
         <div style="border: 1px solid black; padding: 5px 15px; border-radius: 5px;">
           <div>
@@ -203,6 +203,7 @@ th {
 }
 
 .modal-buttons button {
+  width: 100%;
   padding: 10px 30px;
   border: none;
   border-radius: 4px;
@@ -218,12 +219,10 @@ th {
   border: 1px solid  var(--primary-color);
   background-color: white;
   color: var(--primary-color);
-  margin-right: 15px;
 }
 
 .modal-buttons button:last-child {
   background-color: var(--primary-color);
   color: white;
-  margin-left: 15px;
 }
 </style>
