@@ -92,7 +92,7 @@ export default {
         })
 
         if (localStorage) {
-          localStorage.setItem('lego3', JSON.stringify(this.allLego))
+          localStorage.setItem('lego', JSON.stringify(this.allLego))
         }
         this.doAnalysis();
       } catch (error) {
@@ -142,8 +142,8 @@ export default {
     }
   },
   mounted() {
-    if (localStorage && localStorage.getItem('lego3')) {
-      this.allLego = JSON.parse(localStorage.getItem('lego3'));
+    if (localStorage && localStorage.getItem('lego')) {
+      this.allLego = JSON.parse(localStorage.getItem('lego'));
       this.doAnalysis();
     } else {
       this.getLegoInfo();

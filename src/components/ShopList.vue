@@ -5,6 +5,7 @@
       <table>
         <thead>
           <tr>
+            <th></th>
             <th>圖片</th>
             <th>編號</th>
             <th>名稱</th>
@@ -14,34 +15,53 @@
         </thead>
         <tbody>
           <tr v-for="item in displayList" :key="item.set+item.new">
+            <td class="check">
+              <input type="checkbox" v-model="item.selected" :disabled="item.soldout" style="cursor: pointer;">
+            </td>
             <td class="img-cell"><img :src="useSmallPic(item.mainImg)" alt=""></td>
-            <td style="text-align: center;">{{ item.set }}</td>
-            <td>{{ item.title }}</td>
-            <td style="text-align: right;">{{ item.price }}</td>
+            <td style="text-align: center;" :class="{ soldout: item.soldout}">{{ item.set }}</td>
+            <td :class="{ soldout: item.soldout}">{{ item.title }}</td>
+            <td style="text-align: right;" :class="{ soldout: item.soldout}">{{ item.price }}</td>
             <td style="text-align: center;">
-                {{ isNew(item.new) }} 
+                <span v-if="item.soldout" style="color: red;">售出</span>
+                <span v-else>{{ isNew(item.new) }}</span>
                 <div class="tooltip" v-if="item.note">
                   <span class="info-icon">i</span>
                   <span class="tooltiptext">{{ item.note }}</span>
                 </div>
             </td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td colspan="5" style="text-align: center;">
               {{pickupStr}} | 總售價: {{total}} | 報價: <span style="color: red; font-weight: bold;">{{price}}</span>
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </form>
+    
   </div>
+  <div class="cart-container" @click="openCart">
+    <button class="cart-button">
+      購物車
+      <span class="badge">{{ selectedList.length }}</span> <!-- 顯示購買的個數 -->
+    </button>
+  </div>
+  <div>
+    <ResultModal ref="resultModal" :list="selectedList"/>
+  </div>
+
 </template>
 
 <script>
 import { useUserStore } from '../stores/useUserStore';
+import ResultModal from './ResultModal.vue';
 
 export default {
   name: 'ShopList',
+  components: {
+    ResultModal
+  },
   props: {
     list: {
       type: Array,
@@ -56,24 +76,25 @@ export default {
     return {
       isOpen: false,
       selectedOption: null,
-      userStore: useUserStore()
+      userStore: useUserStore(),
+      resultModal: null,
     };
   },
   computed: {
     displayList() {
-      if (this.isMyList && this.userStore.isLogin) {
-        return this.list.filter((item)=>{
-          return this.userStore.userList.includes(Number(item.set)) && (item.new || (!item.new && item.only))
-        });
-      } else {
-        if (this.category) {
-          return this.list.filter((item)=>{
-            return item.theme.includes(this.category)
-          });
-        } else {
+      if (this.category) {
+        if (this.category === 'All') {
           return this.list;
         }
+        return this.list.filter((item)=>{
+          return item.theme.includes(this.category)
+        });
+      } else {
+        return this.list;
       }
+    },
+    selectedList() {
+      return this.list.filter((item)=>item.selected)
     },
     pickupStr() {
       return (this.userStore.pickup)? '自取: 可': '自取: 無'
@@ -149,6 +170,14 @@ export default {
     }
   },
   methods: {
+    openCart() {
+      if (this.selectedList.length === 0) {
+        alert('您尚未選購商品');
+        return;
+      }
+      
+      this.$refs.resultModal.openModal();
+    },
     useSmallPic(url) {
       return url.replace('large', 'thumb').replace('jpg', 'png')
     },
@@ -169,10 +198,60 @@ export default {
 </script>
 
 <style scoped>
+.check {
+  text-align: center; /* 置中對齊 */
+  vertical-align: middle; /* 垂直置中 */
+}
+.check input {
+  width: auto;
+  transform: scale(1.2);
+}
+
+.soldout {
+  text-decoration: line-through;
+  text-decoration-color: red;
+}
+
+.cart-container {
+    position: fixed; /* 固定位置 */
+    right: 15px; /* 距離右邊20像素 */
+    bottom: 10%; /* 距離底部20像素 */
+    z-index: 1000; /* 層級 */
+  }
+
+  .cart-button {
+    background-color: var(--primary-color); /* 綠色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 無邊框 */
+    padding: 10px 20px; /* 內邊距 */
+    text-align: center; /* 文字居中 */
+    text-decoration: none; /* 無下劃線 */
+    display: inline-block; /* 行內塊 */
+    font-size: 16px; /* 字體大小 */
+    border-radius: 50px; /* 圓角邊框 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 投影效果 */
+    cursor: pointer; /* 鼠標指針樣式 */
+    position: relative; /* 相對定位，方便放置徽章 */
+  }
+
+  .cart-button:hover {
+    background-color: var(--secondary-color); /* 懸浮時變換背景色 */
+  }
+
+  .badge {
+    position: absolute; /* 絕對定位 */
+    top: -10px; /* 向上移動10像素 */
+    right: -10px; /* 向右移動10像素 */
+    background-color: red; /* 紅色背景 */
+    color: white; /* 白色文字 */
+    border-radius: 50%; /* 圓形 */
+    padding: 5px 10px; /* 內邊距 */
+    font-size: 12px; /* 字體大小 */
+  }
 .form-container {
   /* max-width: 600px; */
   margin: 0 auto;
-  padding: 20px;
+  /* padding: 20px; */
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
@@ -186,7 +265,7 @@ table {
 
 th, td {
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 2px;
   text-align: left;
 }
 

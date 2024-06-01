@@ -2,23 +2,19 @@
   <div>
     <div class="filter">
       <div>
-        <button type="button" :class="{ select: mode === 'place' }" @click="switchMode('place')">場景模式</button>
+        <!-- <button type="button" :class="{ select: mode === 'place' }" @click="switchMode('place')">場景模式</button> -->
         <button type="button" :class="{ select: mode === 'data' }" @click="switchMode('data')">樂高清單</button>
       </div>
-      <div v-if="mode === 'place'">
+      <!-- <div v-if="mode === 'place'">
         <div class="dropdown-set">
           <div class="dropdown-title">場景切換：</div>
           <Dropdown :list="placeList" @updateSelectPlace="updateSelectPlace"/>
         </div>
-      </div>
-      <div v-else class="sub-filter">
+      </div> -->
+      <div class="sub-filter">
         <select v-model="selectCategory" id="categoryList" :disabled="isMyList && userStore.isLogin">
           <option v-for="item in legoCategory" :value="item">{{ item }}</option>
         </select>
-        <div >
-          <input type="checkbox" id="isMyList" v-model="isMyList" :disabled="!userStore.isLogin" />
-          <label for="isMyList">我的購買清單</label>
-        </div>
       </div>
     </div>
     <div v-show="mode === 'place'">
@@ -84,7 +80,8 @@ export default {
 },
   data() {
     return {
-      mode: 'place',
+      version: '060101',
+      mode: 'data',
       photosPerRow: 3,
       legoList: legoList,
       placeList: placeList,
@@ -94,9 +91,9 @@ export default {
       tempPerRow: 0,
       allLego: [],
       dataMode: 'myData',
-      legoCategory: [],
+      legoCategory: ['All', 'Technic', 'Star Wars', 'Disney', 'Ninjago', 'Creator', 'Ideas', 'Harry Potter', 'Modular Buildings'],
       isMyList: true,
-      selectCategory: '',
+      selectCategory: 'All',
       userStore: useUserStore()
     };
   },
@@ -135,10 +132,12 @@ export default {
         const data = await response.json();
         this.allLego = data.map((obj)=>{
           return {
+            selected: false,
             set: obj.Set.split('-')[0],
             name: obj.Name,
             title: obj.Title,
             price: obj.Valuation,
+            soldout: !obj.New && !obj.only,
             new: obj.New,
             only: obj.only,
             note: obj.note,
@@ -150,10 +149,10 @@ export default {
             })
           }
         })
-        this.updateDetailList();
 
         if (localStorage) {
-          localStorage.setItem('lego3', JSON.stringify(this.allLego))
+          localStorage.setItem('lego', JSON.stringify(this.allLego))
+          localStorage.setItem('version', JSON.stringify(this.version))
         }
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -176,7 +175,7 @@ export default {
         temp.add(...item.theme)
       })
       this.selectDetail = 0;
-      this.legoCategory = Array.from(temp)
+      // this.legoCategory = Array.from(temp)
     },
     clickSubImg(url) {
       const newUrl = url.replace('thumb', 'large').replace('png', 'jpg')
@@ -187,11 +186,16 @@ export default {
     }
   },
   mounted() {
-    if (localStorage && localStorage.getItem('lego3')) {
-      this.allLego = JSON.parse(localStorage.getItem('lego3'));
-      this.updateDetailList();
-    } else {
+    let needReload = true;
+    if (localStorage && localStorage.getItem('version') && localStorage.getItem('lego')) {
+      if (JSON.parse(localStorage.getItem('version')) == this.version) {
+        needReload = false;
+      }
+    }
+    if (needReload) {
       this.getLegoInfo();
+    } else {
+      this.allLego = JSON.parse(localStorage.getItem('lego'));
     }
   },
 }

@@ -9,10 +9,10 @@
       <router-link to="/toys">TOYS</router-link>
     </nav>
     <div class="info">
-      <button class="login" @click="openModal" v-if="!loginUser">登入</button>
-      <div class="user-name" v-else>
+      <!-- <button class="login" @click="openModal" v-if="!loginUser">登入</button> -->
+      <!-- <div class="user-name" v-else>
         <span @click="openLogout">{{ loginUser }}</span>
-      </div>
+      </div> -->
       <!-- <router-link to="/about" class="about" v-if="!isMobile">About Me</router-link> -->
       <button class="menu-button" @click="toggleMenu" v-show="isMobile">☰</button>
       <DrawerMenu :visible="menuOpen && isMobile" @update:visible="menuOpen = $event" />
@@ -66,9 +66,7 @@ export default {
     }
 
     onMounted(() => {
-      if (localStorage.getItem('user2')) {
-        userStore.setUserInfo(JSON.parse(localStorage.getItem('user2')))
-      }
+      
     })
 
     return { goHome, toggleMenu, openModal, openLogout, menuOpen, userOpen, isMobile, loginModal, logoutModal, loginUser};
