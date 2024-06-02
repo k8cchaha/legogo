@@ -4880,7 +4880,7 @@
         "Theme": "World City / Police and Rescue",
         "Valuation": 6000,
         "Total": 6000,
-        "New": 1,
+        "New": 0,
         "Used": 0,
         "Growth%": 136.23,
         "Hyperlink URL": "https://www.brickeconomy.com/set/7047-1/lego-world-city-police-and-rescue-coast-watch-hq",
@@ -7448,6 +7448,7 @@
     {
         "Set": "76046-1",
         "Name": "Heroes of Justice Sky High Battle",
+        "Title": "高空戰鬥",
         "Theme": "DC Comics Super Heroes / DC Extended...",
         "Valuation": 1900,
         "Total": 1900,
@@ -7468,7 +7469,7 @@
     {
         "Set": "76049-1",
         "Name": "Avenjet Space Mission",
-        "Title": "高空戰鬥",
+        "Title": "復仇者太空任務",
         "Theme": "Marvel Super Heroes / Avengers Assem...",
         "Valuation": 4200,
         "Total": 4200,
