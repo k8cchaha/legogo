@@ -70,7 +70,8 @@ export default {
       }
     },
     isMyList: Boolean,
-    category: String
+    category: String,
+    hideOut: Boolean
   },
   data() {
     return {
@@ -84,13 +85,26 @@ export default {
     displayList() {
       if (this.category) {
         if (this.category === 'All') {
+          if (this.hideOut) {
+            return this.list.filter((item)=>!item.soldout)
+          } else {
+            return this.list;
+          }
+        }
+        const temp = this.list.filter((item)=>{
+          return item.theme.includes(this.category)
+        })
+        if (this.hideOut) {
+          return temp.filter((item)=>!item.soldout)
+        } else {
+          return temp;
+        }
+      } else {
+        if (this.hideOut) {
+          return this.list.filter((item)=>!item.soldout)
+        } else {
           return this.list;
         }
-        return this.list.filter((item)=>{
-          return item.theme.includes(this.category)
-        });
-      } else {
-        return this.list;
       }
     },
     selectedList() {

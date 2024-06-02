@@ -11,6 +11,10 @@
           <Dropdown :list="placeList" @updateSelectPlace="updateSelectPlace"/>
         </div>
       </div> -->
+      <div>
+        <input type="checkbox" id="filterOut" v-model="filterSoldout">
+        <label for="filterOut" style="margin-right: 10px">隱藏售出</label>
+      </div>
       <div class="sub-filter">
         <select v-model="selectCategory" id="categoryList" :disabled="isMyList && userStore.isLogin">
           <option v-for="item in legoCategory" :value="item">{{ item }}</option>
@@ -52,7 +56,7 @@
       </div>
     </div>
     <div v-show="mode === 'data'" class="data-view">
-      <ShopList :list="allLego" :isMyList="isMyList" :category="selectCategory"/>
+      <ShopList :list="allLego" :isMyList="isMyList" :category="selectCategory" :hideOut="filterSoldout"/>
     </div>
     <!-- <div v-show="mode === 'data'" class="photo-grid" :style="{ gridTemplateColumns: `repeat(${photosPerRow}, 1fr)` }">
       <ShopList />
@@ -94,7 +98,8 @@ export default {
       legoCategory: ['All', 'Technic', 'Star Wars', 'Disney', 'Ninjago', 'Creator', 'Ideas', 'Harry Potter', 'Modular Buildings'],
       isMyList: true,
       selectCategory: 'All',
-      userStore: useUserStore()
+      userStore: useUserStore(),
+      filterSoldout: true
     };
   },
   computed: {
@@ -137,7 +142,7 @@ export default {
             name: obj.Name,
             title: obj.Title,
             price: obj.Valuation,
-            soldout: !obj.New && !obj.only,
+            soldout: !obj.New && !obj.Used,
             new: obj.New,
             only: obj.only,
             note: obj.note,
