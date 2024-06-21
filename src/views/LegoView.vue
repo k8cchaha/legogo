@@ -84,7 +84,7 @@ export default {
 },
   data() {
     return {
-      version: '060205',
+      version: '062101',
       mode: 'data',
       photosPerRow: 3,
       legoList: legoList,
@@ -95,7 +95,7 @@ export default {
       tempPerRow: 0,
       allLego: [],
       dataMode: 'myData',
-      legoCategory: ['All', 'Technic', 'Star Wars', 'Disney', 'Ninjago', 'Creator', 'Ideas', 'Harry Potter', 'Modular Buildings'],
+      legoCategory: ['All', 'Technic', 'Star Wars', 'Disney', 'Ninjago', 'Creator', 'Ideas', 'Harry Potter', 'Batman', 'Modular Buildings'],
       isMyList: true,
       selectCategory: 'All',
       userStore: useUserStore(),
@@ -130,11 +130,13 @@ export default {
 
       try {
         const sourcePathBase = process.env.NODE_ENV === 'production' ? '/legogo' : '';
-        const response = await fetch(sourcePathBase + '/data/legov7.json');
+        const response = await fetch(sourcePathBase + '/data/legov11.json');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        console.log('XXXXXXX')
+        console.log(data)
         this.allLego = data.map((obj)=>{
           return {
             selected: false,
@@ -142,7 +144,7 @@ export default {
             name: obj.Name,
             title: obj.Title,
             price: obj.Valuation,
-            soldout: !obj.New && !obj.Used,
+            soldout: obj.Sell? obj.New? (obj.New - obj.Sell <= 0): (obj.Used - obj.Sell <= 0) : false,
             new: obj.New,
             only: obj.only,
             note: obj.note,

@@ -14,12 +14,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in displayList" :key="item.set+item.new" @click="selectedRow(index)">
-            <td class="check">
+          <tr v-for="(item, index) in displayList" :key="item.set+'-'+item.new+index">
+            <td class="check" @click="selectedRow(index)">
               <input type="checkbox" v-model="item.selected" :disabled="item.soldout" style="cursor: pointer;">
             </td>
-            <td class="img-cell"><img :src="useSmallPic(item.mainImg)" alt=""></td>
-            <td style="text-align: center;" :class="{ soldout: item.soldout}">{{ item.set }}</td>
+            <td class="img-cell" @click="showImg(index)"><img :src="useSmallPic(item.mainImg)" alt=""></td>
+            <td style="text-align: center;" :class="{ soldout: item.soldout}" @click="showImg(index)" >{{ item.set }}</td>
             <td :class="{ soldout: item.soldout}">{{ item.title }}</td>
             <td style="text-align: right;" :class="{ soldout: item.soldout}">{{ item.price }}</td>
             <td style="text-align: center;">
@@ -49,6 +49,7 @@
   </div>
   <div>
     <ResultModal ref="resultModal" :list="selectedList"/>
+    <ImgModal ref="imgModal" :isSelected="rowIsSelected" :imgSrc="rowImgSrc" @updateSelected="updateSelected"/>
   </div>
 
 </template>
@@ -56,11 +57,13 @@
 <script>
 import { useUserStore } from '../stores/useUserStore';
 import ResultModal from './ResultModal.vue';
+import ImgModal from './ImgModal.vue';
 
 export default {
   name: 'ShopList',
   components: {
-    ResultModal
+    ResultModal,
+    ImgModal
   },
   props: {
     list: {
@@ -79,12 +82,17 @@ export default {
       selectedOption: null,
       userStore: useUserStore(),
       resultModal: null,
+      imgModal: null,
+      selectedIdx: null,
+      rowIsSelected: false,
+      rowImgSrc: '',
     };
   },
   computed: {
     displayList() {
       if (this.category) {
         if (this.category === 'All') {
+          console.log('ALLLLLL')
           if (this.hideOut) {
             return this.list.filter((item)=>!item.soldout)
           } else {
@@ -94,6 +102,7 @@ export default {
         const temp = this.list.filter((item)=>{
           return item.theme.includes(this.category)
         })
+        console.log(temp)
         if (this.hideOut) {
           return temp.filter((item)=>!item.soldout)
         } else {
@@ -211,6 +220,15 @@ export default {
       if (!this.displayList[idx].soldout) {
         this.displayList[idx].selected = !this.displayList[idx].selected;
       }
+    },
+    showImg(idx) {
+      this.selectedIdx = idx;
+      this.rowIsSelected = this.displayList[idx].selected;
+      this.rowImgSrc =  this.displayList[idx].mainImg;
+      this.$refs.imgModal.openModal();
+    },
+    updateSelected(val) {
+      this.displayList[this.selectedIdx].selected = val;
     }
   }
 };
