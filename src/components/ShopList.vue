@@ -92,7 +92,6 @@ export default {
     displayList() {
       if (this.category) {
         if (this.category === 'All') {
-          console.log('ALLLLLL')
           if (this.hideOut) {
             return this.list.filter((item)=>!item.soldout)
           } else {
@@ -102,7 +101,6 @@ export default {
         const temp = this.list.filter((item)=>{
           return item.theme.includes(this.category)
         })
-        console.log(temp)
         if (this.hideOut) {
           return temp.filter((item)=>!item.soldout)
         } else {
@@ -124,7 +122,6 @@ export default {
     },
     total() {
       return this.displayList.reduce((prev, curr)=>{
-        console.log(prev)
         return prev + curr.price
       }, 0)
     },

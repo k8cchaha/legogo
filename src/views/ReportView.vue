@@ -115,9 +115,6 @@ export default {
       }
       
       for (let i = 0; i < this.allLego.length; i++) {
-        console.log(this.allLego[i].set)
-        console.log(this.totalGood.amount + this.totalBad.amount)
-
         if (this.allLego[i].new || this.allLego[i].only) {
           if (this.allLego[i].count > 0) {
             this.totalGood.count ++;

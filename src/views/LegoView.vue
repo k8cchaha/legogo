@@ -84,7 +84,7 @@ export default {
 },
   data() {
     return {
-      version: '062101',
+      version: '062102',
       mode: 'data',
       photosPerRow: 3,
       legoList: legoList,
@@ -95,7 +95,7 @@ export default {
       tempPerRow: 0,
       allLego: [],
       dataMode: 'myData',
-      legoCategory: ['All', 'Technic', 'Star Wars', 'Disney', 'Ninjago', 'Creator', 'Ideas', 'Harry Potter', 'Batman', 'Modular Buildings'],
+      legoCategory: ['All', 'Batman', 'Ninjago', 'Technic', 'Star Wars', 'Disney', 'Creator', 'Ideas', 'City', 'Harry Potter', 'Modular Buildings'],
       isMyList: true,
       selectCategory: 'All',
       userStore: useUserStore(),
@@ -135,8 +135,6 @@ export default {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('XXXXXXX')
-        console.log(data)
         this.allLego = data.map((obj)=>{
           return {
             selected: false,
