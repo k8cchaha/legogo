@@ -1,6 +1,9 @@
 <template>
   <div v-if="showModal" class="modal-overlay">
     <div class="modal">
+      <div>
+        <h2>{{ imgName }}</h2>
+      </div>
       <img :src="imgSrc" width="100%"/>
       
       <div class="modal-buttons">
@@ -16,6 +19,9 @@
 
 export default {
   props: {
+    imgName: {
+      type: String
+    },
     imgSrc: {
       type: String
     },

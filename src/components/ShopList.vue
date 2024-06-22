@@ -49,7 +49,7 @@
   </div>
   <div>
     <ResultModal ref="resultModal" :list="selectedList"/>
-    <ImgModal ref="imgModal" :isSelected="rowIsSelected" :imgSrc="rowImgSrc" @updateSelected="updateSelected"/>
+    <ImgModal ref="imgModal" :isSelected="rowIsSelected" :imgName="rowImgName"  :imgSrc="rowImgSrc" @updateSelected="updateSelected"/>
   </div>
 
 </template>
@@ -84,6 +84,7 @@ export default {
       resultModal: null,
       imgModal: null,
       selectedIdx: null,
+      rowImgName: '',
       rowIsSelected: false,
       rowImgSrc: '',
     };
@@ -220,6 +221,7 @@ export default {
     },
     showImg(idx) {
       this.selectedIdx = idx;
+      this.rowImgName = this.displayList[idx].title;
       this.rowIsSelected = this.displayList[idx].selected;
       this.rowImgSrc =  this.displayList[idx].mainImg;
       this.$refs.imgModal.openModal();

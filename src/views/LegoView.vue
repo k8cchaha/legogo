@@ -17,7 +17,7 @@
       </div>
       <div class="sub-filter">
         <select v-model="selectCategory" id="categoryList" :disabled="isMyList && userStore.isLogin">
-          <option v-for="item in legoCategory" :value="item">{{ item }}</option>
+          <option v-for="item in legoCategory" :value="item.key">{{ item.name }}</option>
         </select>
       </div>
     </div>
@@ -95,7 +95,22 @@ export default {
       tempPerRow: 0,
       allLego: [],
       dataMode: 'myData',
-      legoCategory: ['All', 'Batman', 'Ninjago', 'Technic', 'Star Wars', 'Disney', 'Creator', 'Ideas', 'City', 'Harry Potter', 'Modular Buildings'],
+      legoCategory: [
+        { name: '全部系列', key: 'All' },
+        { name: '蝙蝠俠系列', key: 'Batman' },
+        { name: '忍者系列', key: 'Ninjago' },
+        { name: '科技系列', key: 'Technic' },
+        { name: '星際大戰', key: 'Star Wars' },
+        { name: '迪士尼', key: 'Disney' },
+        { name: 'CREATOR', key: 'Creator' },
+        { name: 'IDEAs', key: 'Ideas' },
+        { name: '城市系列', key: 'City' },
+        { name: '哈利波特', key: 'Harry Potter' },
+        { name: '建築系列', key: 'Architecture' },
+        { name: '人偶系列', key: 'Minifigure Series' },
+        { name: '街景系列', key: 'Modular Buildings' },
+      ],
+      // legoCategory: ['All', 'Batman', 'Ninjago', 'Technic', 'Star Wars', 'Disney', 'Creator', 'Ideas', 'City', 'Harry Potter', 'Modular Buildings'],
       isMyList: true,
       selectCategory: 'All',
       userStore: useUserStore(),
